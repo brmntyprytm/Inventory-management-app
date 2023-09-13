@@ -42,7 +42,6 @@ Class : PBP - International
         B[urls.py] --> |2. URL Mapping|C[views.py]
         C --> D[models.py]
         C --> E[HTML Template]
-        E --> C
     end
 
     subgraph Database
@@ -52,6 +51,7 @@ Class : PBP - International
     A -->|1. HTTP Request| B
     D -->|3. Read or Write Data| C
     D -->|4. Data Access| F
+    F -->|4. Data Access| D
     D -->|5. Render Template| E
     E -->|6. HTML Response| A
 ```
@@ -60,12 +60,14 @@ Class : PBP - International
 
 Virtual Environment is a tool that helps to keep dependencies required by different projects separate by creating isolated python virtual environments for them. This is one of the most important tools that most of the Python developers use.
 
+The way I used Virtual Enviroment in this project is by creating a virtual environment inside of the project folder, which I named `env`. I then activated the virtual environment by `python -m venv env` and activate it using `source env/bin/activate` inside the terminal and installed the Django app inside of it. This way, the Django app is only installed inside of the virtual environment and not on my local machine.
+
 Virtual Environments also make it easier to collaborate with other developers. Other developers can easily install the dependencies used by the project without interfering with other projects or their dependencies.
 
 ## MVC, MVT, and MVVM
 
-MVC or Model View Controller is a software design pattern that is used to develop web applications. The MVC pattern separates an application into three main components: the Model, the View, and the Controller.
+`MVC` or Model View Controller is a software design pattern that is used to develop web applications. The `MVC` pattern separates an application into three main components: the Model, the View, and the Controller.
 
-MVT on the other hand is a software design pattern that is a variation of the MVC pattern used for developing web applications. The MVT pattern separates an application into three main components: the Model, the View, and the Template.
+`MVT` on the other hand is a software design pattern that is a variation of the `MVC` pattern used for developing web applications. The `MVT` pattern separates an application into three main components: the Model, the View, and the Template.
 
-And finally, MVVM is a software design pattern that is a variation of the MVC pattern used for developing web applications. The MVVM pattern separates an application into three main components: the Model, the View, and the View Model.
+And finally, `MVVM` is a software design pattern that is a variation of the `MVC` pattern used for developing web applications. The `MVVM` pattern separates an application into three main components: the Model, the View, and the View Model.
