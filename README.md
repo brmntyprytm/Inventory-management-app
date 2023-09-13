@@ -12,11 +12,11 @@ Class : PBP - International
 
 1. The first thing I did on the project is to initialize git inside of the Project Folder Which I named `Inventory-management-app`.
 
-2. The second step is to configure my GitHub username and email to the Project Folder.
+2. The second step is to configure my GitHub username and email by using the `git config user.name` and `git config user.email` to the Project Folder.
 
-3. The third step I did is create a `.gitIgnore` file and a placeholder `README.md` file.
+3. The third step I did is create a `.gitignore` file and a placeholder `README.md` file.
 
-4. Then finally on the fourth step, I installed the Django `main` app in the project folder using a Python virtual environment.
+4. Then finally on the fourth step, I installed the Django `main` app in the project folder using a Python virtual environment, because I am using a mac, the way I activated the Python virtual environment is by using the `python -m venv env` command and activate it using `source env/bin/activate` in the terminal.
 
 5. On the fifth step, I implemented and integrated the basic model view template for the website, where I filled the `models.py`, `views.py`, and also the template `html` file.
 
@@ -26,9 +26,11 @@ Class : PBP - International
 
 8. The eighth step is adding, committing, and pushing all the files from my local project folder into my GitHub repository. This was where I made the mistake of pushing the wrong directory into my repo, I mistakenly navigated into the `Django project folder` instead of the `outside project` folder which I then quickly discovered that I can just move the files of the into the outside `project folder` which reverted my mistake.
 
-9. After realizing that I have `git push`-d the placeholder project, I filled in the correct model in the `models.py` files where I put all of the attributes for the `weapons` class for The Hunter's Workshop.
+9. After realizing that I have `git push`-ed the placeholder project, I quickly filled in the correct model in the `models.py` files where I put all of the attributes for the `weapons` class for The Hunter's Workshop.
 
 10. And that concludes the Implementations. The app should be deployed shortly after I have finished typing this `README.md`, which I have linked the url at the top of this file.
+
+11. A little update, there have been some drama surrounding the `Adaptable.io` site for deployment, which I have been banned from using. Thus the deployment of this repo has been postponed.
 
 ## Django MVT Diagram
 
@@ -38,8 +40,8 @@ Class : PBP - International
         A[Browser]
     end
 
-    subgraph Django Environment
-        B[urls.py] --> |2. URL Mapping|C[views.py]
+    subgraph Django Framework
+        B[urls.py] --> |URL Mapping|C[views.py]
         C --> D[models.py]
         C --> E[HTML Template]
     end
@@ -48,12 +50,12 @@ Class : PBP - International
         F[Database Table]
     end
 
-    A -->|1. HTTP Request| B
-    D -->|3. Read or Write Data| C
-    D -->|4. Data Access| F
-    F -->|4. Data Access| D
-    D -->|5. Render Template| E
-    E -->|6. HTML Response| A
+    A -->|HTTP Request| B
+    D -->|Read or Write Data| C
+    D -->|Data Access| F
+    F --> D
+    E --> |Render Template|C
+    C --> |HTML Response| A
 ```
 
 ## Virtual Environment
