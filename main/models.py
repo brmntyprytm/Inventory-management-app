@@ -6,7 +6,5 @@ class Weapons(models.Model):
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
     attack_rating = models.IntegerField()
-    scaling = models.IntegerField()
-    requirements = models.IntegerField()
     amount = models.IntegerField()
     description = models.TextField()

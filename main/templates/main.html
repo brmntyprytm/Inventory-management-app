@@ -1,16 +1,49 @@
-<h1>The Hunter's Workshop</h1>
+{% extends 'base.html' %}
 
-<h2>
-  The Hunter's Workshop is intended as a place to plan out and preview your
-  builds for Bloodborne.
-</h2>
+{% block content %}
+  <h1>The Hunter's Workshop</h1>
 
-<h5>Name:</h5>
-<p>{{ name }}</p>
+  <h2>
+    The Hunter's Workshop is intended as a place to plan out and preview your
+    builds for Bloodborne.
+  </h2>
 
-<h5>Class:</h5>
-<p>{{ class }}</p>
+  <h5>Name:</h5>
+  <p>{{ name }}</p>
 
-<h5>
-  This website is not affiliated with Bloodborne or FromSoftware in any way.
-</h5>
+  <h5>Class:</h5>
+  <p>{{ class }}</p>
+
+  <h5>
+    This website is not affiliated with Bloodborne or FromSoftware in any way.
+  </h5>
+  <table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Attack Rating</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Date Added</th>
+    </tr>
+
+    {% for weapon in weapons %}
+        <tr>
+            <td>{{weapon.name}}</td>
+            <td>{{weapon.type}}</td>
+            <td>{{weapon.attack_rating}}</td>
+            <td>{{weapon.amount}}</td>
+            <td>{{weapon.description}}</td>
+            <td>{{weapon.date_added}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<br />
+
+<a href="{% url 'main:create_weapon' %}">
+    <button>
+        Add New Weapon
+    </button>
+</a>
+{% endblock content %}
