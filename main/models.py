@@ -8,3 +8,4 @@ class Weapons(models.Model):
     attack_rating = models.IntegerField()
     amount = models.IntegerField()
     description = models.TextField()
+    date_added = models.DateField(auto_now_add=True)
