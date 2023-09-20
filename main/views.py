@@ -9,7 +9,13 @@ from django.core import serializers
 
 def show_main(request):
     weapons = Weapons.objects.all()
-    context = {"name": "Bramantyo", "class": "PBP International", "weapons": weapons}
+    counter = Weapons.objects.count()
+    context = {
+        "name": "Bramantyo",
+        "class": "PBP International",
+        "weapons": weapons,
+        "counter": counter,
+    }
 
     return render(request, "main.html", context)
 

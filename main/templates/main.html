@@ -17,6 +17,7 @@
   <h5>
     This website is not affiliated with Bloodborne or FromSoftware in any way.
   </h5>
+
   <table>
     <tr>
         <th>Name</th>
@@ -39,6 +40,8 @@
     {% endfor %}
 </table>
 
+<h5> You have found {{ counter }} weapons!</h5>
+
 <br />
 
 <a href="{% url 'main:create_weapon' %}">
@@ -46,4 +49,5 @@
         Add New Weapon
     </button>
 </a>
+
 {% endblock content %}
