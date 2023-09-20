@@ -277,12 +277,15 @@ Extensibility: Not designed for extensibility, has a fixed set of tags and eleme
 
 ## This is what happens when we access the URLs using Postman
 
-![JSON](/assets/Screenshot 2023-09-20 at 09.51.14.png)
+<img width="1512" alt="Screenshot 2023-09-20 at 09 51 43" src="https://github.com/brmntyprytm/The-Hunters-Workshop/assets/126330045/0d78c509-676d-4fb2-84ee-caea2142e59c">
 
-![XML](/assets/Screenshot 2023-09-20 at 09.51.43.png)
+<img width="1512" alt="Screenshot 2023-09-20 at 09 51 14" src="https://github.com/brmntyprytm/The-Hunters-Workshop/assets/126330045/0b68ce64-3d96-4c91-a2be-24b17f9e7b66">
 
-![HTML](/assets/Screenshot 2023-09-20 at 10.04.17.png)
 
-![JSONID](/assets/Screenshot 2023-09-20 at 10.04.35.png)
+<img width="1512" alt="Screenshot 2023-09-20 at 10 04 17" src="https://github.com/brmntyprytm/The-Hunters-Workshop/assets/126330045/53284a01-e0e3-4074-8ce0-aaa2d44098a4">
 
-![XMLID](/assets/Screenshot 2023-09-20 at 10.04.45.png)
+
+<img width="1512" alt="Screenshot 2023-09-20 at 10 04 45" src="https://github.com/brmntyprytm/The-Hunters-Workshop/assets/126330045/94687ec5-7466-4c80-95ea-c6a3a770f351">
+
+
+<img width="1512" alt="Screenshot 2023-09-20 at 10 04 35" src="https://github.com/brmntyprytm/The-Hunters-Workshop/assets/126330045/bedb9f1c-e9a3-4541-89bb-70aeb7048f20">
