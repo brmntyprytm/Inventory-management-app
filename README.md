@@ -1,6 +1,6 @@
 # The Hunter's Workshop
 
-**Assignment 3:  Forms and Data Delivery Implementation in Django**
+**Assignment 4: Implementing Authentication, Sessions, and `cookies` in Django**
 
 Website URL :
 
@@ -177,6 +177,270 @@ def show_json_by_id(request, id):
     path("xml/<int:id>/", show_xml_by_id, name="show_xml_by_id"),
     path("json/<int:id>/", show_json_by_id, name="show_json_by_id"),
 ```
+## Implementing Authentication, Sessions, and `cookies` in Django
+
+22. The first thing I did was to implement the registration form and functionality in the `views.py` file as such:
+
+```python
+from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages  
+
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your account has been successfully created!")
+            return redirect("main:login")
+    context = {"form": form}
+    return render(request, "register.html", context)
+```
+
+23. Then I created a new HTML file named `register.html` inside the `templates` folder as such:
+
+```html
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class = "login">
+    
+    <h1>Register</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
+
+</div>  
+
+{% endblock content %}
+```
+
+24. I also added the following to the `urls.py` file so that the `register` function could be accessed properly:
+
+```python
+    path("register/", register, name="register"),
+```
+
+25. Then I added the login function inside `views.py` as such:
+
+```python
+from django.contrib.auth import authenticate, login
+
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie("last_login", str(datetime.datetime.now()))
+            return response
+        else:
+            messages.info(
+                request, "Sorry, incorrect username or password. Please try again."
+            )
+    context = {}
+    return render(request, "login.html", context)
+```
+
+26. I also created a new HTML file called `login.html` inside the main app as such:
+
+```html
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+
+<div class = "login">
+
+    <h1>Login</h1>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+            </tr>
+                    
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input class="btn login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}     
+        
+    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+
+</div>
+
+{% endblock content %}
+```
+
+27. Inside the `urls.py` I added a new path to `urlpatterns` as such:
+
+```python
+    path("login/", login_user, name="login"),
+```
+
+28. Then I added a logout function to `views.py` as such:
+
+```python
+from django.contrib.auth import logout
+
+def logout_user(request):
+    logout(request)
+    return redirect('main:login')
+```
+
+29. Inside the `main.html`, I added a new button to the page as such:
+
+```html
+<a href="{% url 'main:logout' %}">
+    <button>
+        Logout
+    </button>
+</a>
+```
+
+30. I also added a new url to `urls.py` as such:
+```python
+from main.views import logout_user
+
+path('logout/', logout_user, name='logout'),
+```
+
+31. I also restricted the access to the `main` page by adding the `@login_required` decorator to the `show_main` function as such:
+
+```python
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/login')
+def show_main(request):
+```
+
+32. I will also explore the use of `cookies` by adding a "last login" feature to the `login` function inside `views.py` as such:
+
+```python
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+if user is not None:
+    login(request, user)
+    response = HttpResponseRedirect(reverse("main:show_main")) 
+    response.set_cookie('last_login', str(datetime.datetime.now()))
+    return response
+```
+
+33. Inside the `show_main` function in `views.py` I also added a last login as such:
+
+```python
+@login_required(login_url="/login")
+def show_main(request):
+    weapons = Weapons.objects.filter(user=request.user)
+    counter = weapons.count()
+    context = {
+        "name": request.user.username,
+        "class": "PBP International",
+        "weapons": weapons,
+        "counter": counter,
+        "last_login": request.COOKIES["last_login"]
+        if "last_login" in request.COOKIES.keys()
+        else "",
+    }
+
+    return render(request, "main.html", context)
+```
+
+34. I also modified the `logout_user` function as such:
+```python
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
+```
+
+35. Inside the `main.html` file, I addded the last login session which displays the last login time as such:
+
+```html
+<h5>Last login session: {{ last_login }}</h5>
+```
+
+36. To connect the `Weapons` model to `user` model, I need to link the object to the `user` who created it, I implemented it as such:
+
+```python
+from django.contrib.auth.models import User
+
+class Weapons(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+```
+
+37. Inside the `create_weapon` function in `views.py`, I also modified the code as follows:
+
+```python
+def create_weapon(request):
+    form = WeaponForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        weapon = form.save(commit=False)
+        weapon.user = request.user
+        weapon.save()
+        return HttpResponseRedirect(reverse("main:show_main"))
+
+    context = {"form": form}
+    return render(request, "create_weapon.html", context)
+```
+
+38. I also modified the `show_main` function as such, this makes sure that the objects that users created are shown in the main page and counts the correct number of weapons that the user has created:
+
+```python
+@login_required(login_url="/login")
+def show_main(request):
+    weapons = Weapons.objects.filter(user=request.user)
+    counter = weapons.count()
+```
 
 ## Django MVT Diagram
 
@@ -289,3 +553,46 @@ Extensibility: Not designed for extensibility, has a fixed set of tags and eleme
 
 
 <img width="1512" alt="Screenshot 2023-09-20 at 10 04 35" src="https://github.com/brmntyprytm/The-Hunters-Workshop/assets/126330045/bedb9f1c-e9a3-4541-89bb-70aeb7048f20">
+
+## `UserCreationForm` in Django
+
+`UserCreationForm` is a built-in Django form that provides a simple way to create a new user account. It is a subclass of `django.contrib.auth.forms.UserCreationForm` and provides a set of fields for the user to enter their username, email, and password.
+
+Advantages:
+
+1. `UserCreationForm` is easy to use and requires minimal setup.
+2. It provides built-in validation for the username, email, and password fields.
+3. It automatically hashes the password before storing it in the database.
+4. It can be customized to include additional fields or validation.
+
+Disadvantages: 
+
+1. `UserCreationForm` provides a limited set of fields and may not be suitable for all use cases.
+2. It does not provide any additional features such as email verification or two-factor authentication.
+3. It may not be suitable for applications that require more complex user registration workflows.
+
+Overall, `UserCreationForm` is a useful tool for quickly creating a simple user registration form in Django. However, for more complex applications, it may be necessary to create a custom registration form that includes additional fields and features.
+
+## Differences Betweeen Authentication and Authorization
+
+Authentication is the process of verifying the identity of a user. In Django, authentication is the process of verifying that a user is who they claim to be. This is typically done by asking the user to provide a username and password, and then checking those credentials against a database of users. Django provides built-in authentication views and forms that make it easy to add authentication to your application.
+
+Authorization, on the other hand, is the process of determining what a user is allowed to do. In Django, authorization is the process of determining whether a user has permission to perform a specific action, such as accessing a particular page or editing a particular object. Django provides a built-in permission system that allows you to define permissions for your models and views.
+
+Authentication and authorization are both important for web application security. Authentication verifies the identity of a user, while authorization determines what a user is allowed to do. Django provides built-in tools for both authentication and authorization, making it easy to add these features to your application.
+
+## `cookies` in Websites
+
+`Cookies` are small text files that are stored on a user's computer by a website. They are used to store information about the user's preferences, login status, and other data that can be used to personalize the user's experience on the website.
+
+In Django, cookies are used to manage user session data. When a user logs in to a Django application, a session is created for that user. The session data is stored on the server, but a unique session ID is also stored in a cookie on the user's computer. This allows the server to identify the user and retrieve their session data when they make subsequent requests to the application.
+
+By default, Django uses a secure, cryptographically signed cookie to store the session ID. This helps to prevent tampering and ensures that the session data is only accessible to the server.
+
+## Security of `Cookies`
+
+`cookies` can be secure to use if they are implemented correctly. However, there are potential risks that you should be aware of when using `cookies` in your web application.
+
+One potential risk is that `cookies` can be intercepted or tampered with by attackers. If a cookie is intercepted, an attacker could use it to impersonate the user and gain access to their account. To mitigate this risk, it is important to use secure, encrypted `cookies` that cannot be easily tampered with.
+
+`cookies` can also be vulnerable to cross-site scripting (XSS) attacks. If an attacker is able to inject malicious code into a website, they could use it to steal `cookies` or other sensitive information from users. To mitigate this risk, it is important to use secure coding practices and to sanitize all user input to prevent XSS attacks.

@@ -9,6 +9,9 @@ from main.views import (
     register,
     login_user,
     logout_user,
+    increment,
+    decrement,
+    delete,
 )
 
 app_name = "main"
@@ -23,4 +26,7 @@ urlpatterns = [
     path("register/", register, name="register"),
     path("login/", login_user, name="login"),
     path("logout/", logout_user, name="logout"),
+    path("increment/<int:id>/", increment, name="increment"),
+    path("decrement/<int:id>/", decrement, name="decrement"),
+    path("delete/<int:id>/", delete, name="delete"),
 ]

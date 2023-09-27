@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
   <h1>The Hunter's Workshop</h1>
 
   <h2>
@@ -24,6 +25,7 @@
         <th>Type</th>
         <th>Attack Rating</th>
         <th>Amount</th>
+        <th>Actions</th>
         <th>Description</th>
         <th>Date Added</th>
     </tr>
@@ -34,28 +36,31 @@
             <td>{{weapon.type}}</td>
             <td>{{weapon.attack_rating}}</td>
             <td>{{weapon.amount}}</td>
-            <td>{{weapon.description}}</td>
+            <td class="button-cell">
+              <a href="{% url 'main:increment' weapon.id %}" class="generic-button">add</a>
+              {% if weapon.amount > 1 %}
+              <a href="{% url 'main:decrement' weapon.id %}" class="generic-button">drop</a>
+              {% endif %}
+              <a href="{% url 'main:delete' weapon.id %}" class="delete-button generic-button">purge<a>
+            </td>            
+            <td class="description-cell">{{ weapon.description }}</td>
             <td>{{weapon.date_added}}</td>
         </tr>
     {% endfor %}
-</table>
+  </table>
 
-<h5> You have found {{ counter }} weapon(s)!</h5>
+  <h5> You have found {{ counter }} weapon(s)!</h5>
 
-<br />
+  <br /> 
 
-<h5>Last login session: {{ last_login }}</h5>
+  <h5>Last login session: {{ last_login }}</h5>
 
-<a href="{% url 'main:create_weapon' %}">
-    <button>
-        Add New Weapon
-    </button>
-</a>
-
-<a href="{% url 'main:logout' %}">
-  <button>
-      Logout
-  </button>
-</a>
+  <a href="{% url 'main:create_weapon' %}" class="generic-button">
+    Add New Weapon
+  </a>
+ 
+  <a href="{% url 'main:logout' %}" class="delete-button generic-button">
+    Logout
+  </a>
 
 {% endblock content %}

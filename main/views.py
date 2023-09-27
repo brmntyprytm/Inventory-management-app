@@ -17,14 +17,16 @@ from django.urls import reverse
 
 @login_required(login_url="/login")
 def show_main(request):
-    weapons = Weapons.objects.all()
-    counter = Weapons.objects.count()
+    weapons = Weapons.objects.filter(user=request.user)
+    counter = weapons.count()
     context = {
         "name": request.user.username,
         "class": "PBP International",
         "weapons": weapons,
         "counter": counter,
-        "last_login": request.COOKIES["last_login"],
+        "last_login": request.COOKIES["last_login"]
+        if "last_login" in request.COOKIES.keys()
+        else "",
     }
 
     return render(request, "main.html", context)
@@ -107,3 +109,24 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse("main:login"))
     response.delete_cookie("last_login")
     return response
+
+
+def increment(request, id):
+    weapon = Weapons.objects.get(pk=id)
+    weapon.amount += 1
+    weapon.save()
+    return HttpResponseRedirect(reverse("main:show_main"))
+
+
+def decrement(request, id):
+    weapon = Weapons.objects.get(pk=id)
+    if weapon.amount > 0:
+        weapon.amount -= 1
+        weapon.save()
+    return HttpResponseRedirect(reverse("main:show_main"))
+
+
+def delete(request, id):
+    weapon = Weapons.objects.get(pk=id)
+    weapon.delete()
+    return HttpResponseRedirect(reverse("main:show_main"))
