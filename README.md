@@ -442,6 +442,262 @@ def show_main(request):
     counter = weapons.count()
 ```
 
+## CSS Styling Implementation using Tailwindcss
+
+39. The first thing I did was to install `tailwindcss` using CDN installation method. I added the following to the `base.html` file:
+
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+```
+
+40. Main HTML Page Summary
+
+This code defines the structure of the main page for "The Hunter's Workshop" web application. It extends a base.html template and customizes the content for the main page.
+
+**Navigation Bar**
+
+The navigation bar includes the website's logo and a "Logout" button.
+
+```html
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+    <!-- Logo and navigation links -->
+</nav>
+```
+
+41. User Information
+
+Displays a greeting message for the user, showing their name and class
+
+```html
+<p class="text-gray-500 whitespace-nowrap dark:text-gray-400">Welcome, {{ name }}! from {{ class }}</p>
+```
+
+42. Weapons Table
+
+A table displaying the user's weapons with options to interact with each weapon (add, drop, purge, edit). The table is generated dynamically based on the user's weapons.
+
+```html
+<table class="w-full text-sm text-center text-gray-500 dark:text-gray-400 border-separate border border-gray-900 mx-auto">
+    <!-- Table headers and weapon data -->
+</table>
+```
+
+43. Action Buttons
+
+Buttons for adding, dropping, purging, and editing weapons are provided within the table.
+
+```html
+<button type="button" class="focus:outline-none ...">Add</button>
+<button type="button" class="focus:outline-none ...">Drop</button>
+<button type="button" class="focus:outline-none ...">Purge</button>
+<button type="button" class="focus:outline-none ...">Edit</button>
+```
+
+44. Informational Messages
+
+Messages at the bottom of the page provide additional information:
+
+1. A disclaimer about the website's affiliation.
+2. The last login session timestamp.
+
+```html
+<h5 class="text-gray-500 whitespace-nowrap dark:text-gray-400">This website is not affiliated with Bloodborne or FromSoftware.</h5>
+<h5 class="text-gray-500 whitespace-nowrap dark:text-gray-400">Last login session: {{ last_login }}</h5>
+```
+
+45. Add New Weapon Button
+
+A button to add a new weapon to the user's collection is displayed at the top of the table.
+
+```html
+<a href="{% url 'main:create_weapon' %}">
+    <button type="button" class="focus:outline-none ...">Add New Weapon</button>
+</a>
+```
+
+46. Login Page Summary
+
+This code defines the structure of the login page for the "The Hunter's Workshop" web application. It extends a base.html template and customizes the content for the login page.
+
+**Page Title**
+
+Sets the page title to "Login" in the meta block.
+
+```html
+{% block meta %}
+<title>Login</title>
+{% endblock meta %}
+```
+
+47. Form Section
+
+Displays a login form with input fields for username and password.
+
+```html
+<form class="space-y-6" method="POST" action="">
+    {% csrf_token %}
+    <div>
+        <h5 class="text-xl pb-2 font-medium text-gray-900 dark:text-white">Username:</h5>
+        <input type="text" name="username" placeholder="Username" class="form-control ..." />
+    </div>
+    <div>
+        <h5 class="text-xl pb-2 font-medium text-gray-900 dark:text-white">Password:</h5>
+        <input type="password" name="password" placeholder="Password" class="form-control ..." />
+    </div>
+    <div class="text-center">
+        <button type="button" class="focus:outline-none ...">
+            <input class="btn login_btn" type="submit" value="Login" />
+        </button>
+    </div>
+</form>
+```
+
+48. Error Messages
+
+Displays error messages if there are any. Error messages are represented as list items and include an exclamation icon.
+
+```html
+<div class="flex flex-col text-base pt-4 font-medium text-gray-500">
+    <div class="text-center">
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li class="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill mr-2" viewBox="0 0 16 16">
+                    <path ... />
+                </svg><span>{{ message }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+```
+
+49. Registration Link
+
+Provides a link to the registration page for users who do not have an account.
+
+```html
+Don't have an account yet?
+<a href="{% url 'main:register' %}" class="text-blue-700 hover:underline dark:text-blue-500">
+    Register now!
+</a>
+```
+
+50. Registration Form
+
+Displays a registration form with input fields for username, password, and password confirmation.
+
+```html
+<form class="space-y-6" method="POST" action="">
+    {% csrf_token %}
+    <div class="text-xl pb-2 font-medium text-gray-900 dark:text-white">
+        <div class="mb-4">
+            <label for="{{ form.username.id_for_label }}" class="block mb-2">Username:</label>
+            <input
+                type="text"
+                name="{{ form.username.name }}"
+                placeholder="Username"
+                class="form-control ..."
+                value="{{ form.username.value|default:'' }}"
+                required
+            >
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.password1.id_for_label }}" class="block mb-2">Password:</label>
+            <input
+                type="password"
+                name="{{ form.password1.name }}"
+                placeholder="Password"
+                class="form-control ..."
+                required
+            >
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.password2.id_for_label }}" class="block mb-2">Confirm Password:</label>
+            <input
+                type="password"
+                name="{{ form.password2.name }}"
+                placeholder="Confirm Password"
+                class="form-control ..."
+                required
+            >
+        </div>
+    </div>
+    <div class="text-center">
+        <button type="button" class="focus:outline-none ...">
+            <input type="submit" name="submit" value="Register"/>
+        </button>
+    </div>
+</form>
+```
+
+51. Error Messages
+
+Displays error messages if there are any. Error messages are represented as list items.
+
+```html
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+```
+
+52. Login Link
+
+Provides a link to the login page for users who already have an account.
+
+```html
+Already Have an Account?
+<a href="{% url 'main:login' %}" class="text-blue-700 hover:underline dark:text-blue-500">
+    Login Now!
+</a>
+```
+53. Add New Weapon Page and Edit Page
+
+This code defines the structure of the "Add New Weapon" page for the "The Hunter's Workshop" web application. It extends a base.html template and customizes the content for adding a new weapon.
+
+**Page Content**
+
+Displays a form for adding a new weapon with input fields for name, type, attack rating, amount, and description.
+
+```html
+<div class="w-screen flex flex-col items-center justify-center">
+    <div class="bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700" style="width: 50%;">
+        <h1 class="text-xl text-center font-medium text-gray-900 dark:text-white">Add New Weapon!</h1>
+        <form class="space-y-6" method="POST" action="">
+            {% csrf_token %}
+            <div class="text-xl pb-2 font-medium text-gray-900 dark:text-white">
+                <div class="mb-4">
+                    <!-- Name input -->
+                </div>
+                <div class="mb-4">
+                    <!-- Type input -->
+                </div>
+                <div class="mb-4">
+                    <!-- Attack Rating input -->
+                </div>
+                <div class="mb-4">
+                    <!-- Amount input -->
+                </div>
+                <div class="mb-4">
+                    <!-- Description input (textarea) -->
+                </div>
+                <div class="text-center">
+                    <button type="button" class="focus:outline-none ...">
+                        <input type="submit" value="Add"/>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+```
+
 ## Django MVT Diagram
 
 ```mermaid
@@ -596,3 +852,64 @@ By default, Django uses a secure, cryptographically signed cookie to store the s
 One potential risk is that `cookies` can be intercepted or tampered with by attackers. If a cookie is intercepted, an attacker could use it to impersonate the user and gain access to their account. To mitigate this risk, it is important to use secure, encrypted `cookies` that cannot be easily tampered with.
 
 `cookies` can also be vulnerable to cross-site scripting (XSS) attacks. If an attacker is able to inject malicious code into a website, they could use it to steal `cookies` or other sensitive information from users. To mitigate this risk, it is important to use secure coding practices and to sanitize all user input to prevent XSS attacks.
+
+## CSS Selectors
+
+CSS element selectors are used to target HTML elements based on their tag name. They are the simplest and most common type of selector in CSS. Here are some examples of CSS element selectors:
+
+```css
+/* Select all <p> elements */
+p {
+  color: red;
+}
+
+/* Select all <a> elements */
+a {
+  text-decoration: none;
+}
+
+/* Select all <h1> elements */
+h1 {
+  font-size: 2em;
+}
+```
+
+Element selectors are useful when you want to apply a style to all instances of a particular HTML element. For example, if you want to change the font color of all paragraphs on your website, you can use the p selector to target all `<p>` elements and apply the desired style.
+
+However, element selectors can also be too broad and apply styles to unintended elements. For example, if you use the a selector to remove the underline from all links on your website, it will also remove the underline from any other elements that use the `<a>` tag, such as navigation menus.
+
+In general, it's best to use element selectors sparingly and to combine them with other types of selectors, such as class or ID selectors, to target specific elements more precisely. This can help you avoid unintended styling and make your CSS more maintainable over time.
+
+## HTML5 Tags   
+
+HTML5 introduced several new tags that are designed to make it easier to structure web pages and provide more semantic meaning to the content. Here are some of the HTML5 tags that I know:
+
+1. `<header>`: Defines a header section for a document or a section of a document.
+2. `<nav>`: Defines a set of navigation links.
+3. `<section>`: Defines a section of a document, such as a chapter, a header, a footer, or any other distinct grouping of content.
+4. `<article>`: Defines an independent, self-contained piece of content, such as a blog post or a news article.
+5. `<aside>`: Defines content that is tangentially related to the main content of the page, such as a sidebar or a callout box.
+6. `<footer>`: Defines a footer section for a document or a section of a document.
+7. `<main>`: Defines the main content of a document.
+8. `<figure>`: Defines a self-contained piece of content, such as an image, a video, or a diagram, that is referenced in the main content of the page.
+9. `<figcaption>`: Defines a caption or description for a `<figure>` element.
+10. `<time>`: Defines a date or time value.
+These tags can help make your HTML code more semantic and easier to understand, both for humans and for search engines. By using these tags appropriately, you can create more accessible and well-structured web pages.
+
+## Margins and Padding
+
+Margin and padding are both CSS properties that affect the spacing and layout of elements on a web page, but they work in different ways.
+
+Margin is the space between an element and its neighboring elements. It creates space outside of an element's border. Margin can be set to a specific value, such as `margin: 10px;`, or it can be set to different values for each side of an element, such as `margin-top: 10px;` `margin-right: 20px;` `margin-bottom: 10px;` `margin-left: 20px;.`
+
+Padding, on the other hand, is the space between an element's content and its border. It creates space inside of an element's border. Padding can also be set to a specific value, such as padding: 10px;, or it can be set to different values for each side of an element, such as `padding-top: 10px; padding-right: 20px; padding-bottom: 10px; padding-left: 20px;`.
+
+In summary, margin creates space outside of an element's border, while padding creates space inside of an element's border. Understanding the differences between margin and padding is important for creating well-designed and visually appealing web pages.
+
+## Differences between Tailwindcss and Bootstrap
+
+One of the main differences between Tailwind and Bootstrap is their approach to styling. Tailwind provides a set of utility classes that can be used to apply specific styles to elements, while Bootstrap provides pre-designed components that can be customized using CSS classes and styles. This means that Tailwind gives developers more control over the styling of their elements, while Bootstrap provides a more opinionated and consistent design system.
+
+Another difference between the two frameworks is their file size. Tailwind is designed to be lightweight and modular, with a smaller file size than Bootstrap. This can make it a good choice for projects where performance is a priority.
+
+When deciding whether to use Bootstrap or Tailwind, it's important to consider the specific needs of your project. If you need a consistent and opinionated design system with pre-designed components, Bootstrap may be a good choice. If you need more control over the styling of your elements and want a lightweight framework, Tailwind may be a better fit.

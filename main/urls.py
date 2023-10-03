@@ -12,6 +12,7 @@ from main.views import (
     increment,
     decrement,
     delete,
+    edit_product,
 )
 
 app_name = "main"
@@ -29,4 +30,5 @@ urlpatterns = [
     path("increment/<int:id>/", increment, name="increment"),
     path("decrement/<int:id>/", decrement, name="decrement"),
     path("delete/<int:id>/", delete, name="delete"),
+    path("edit/<int:id>/", edit_product, name="edit_product"),
 ]

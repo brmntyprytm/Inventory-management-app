@@ -135,3 +135,6 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Tailwind config file (Not used) just to make intellisense work
+tailwind.config.js

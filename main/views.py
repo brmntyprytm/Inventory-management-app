@@ -21,9 +21,9 @@ def show_main(request):
     counter = weapons.count()
     context = {
         "name": request.user.username,
-        "class": "PBP International",
         "weapons": weapons,
         "counter": counter,
+        "class": "International Class",
         "last_login": request.COOKIES["last_login"]
         if "last_login" in request.COOKIES.keys()
         else "",
@@ -130,3 +130,13 @@ def delete(request, id):
     weapon = Weapons.objects.get(pk=id)
     weapon.delete()
     return HttpResponseRedirect(reverse("main:show_main"))
+
+
+def edit_product(request, id):
+    product = Weapons.objects.get(pk=id)
+    form = WeaponForm(request.POST or None, instance=product)
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse("main:show_main"))
+    context = {"form": form}
+    return render(request, "edit_product.html", context)
