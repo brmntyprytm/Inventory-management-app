@@ -1,2 +1,2 @@
 release: django-admin migrate --noinput
-web: gunicorn Inventory-management-app.wsgi
+web: gunicorn Inventory_management_app.wsgi
