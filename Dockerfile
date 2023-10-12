@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app \
-    DJANGO_SETTINGS_MODULE=Inventory-management-app.settings \
+    DJANGO_SETTINGS_MODULE=Inventory_management_app.settings \
     PORT=8000 \
     WEB_CONCURRENCY=2
 
