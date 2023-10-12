@@ -11,8 +11,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required(login_url="/login")
@@ -140,3 +141,39 @@ def edit_product(request, id):
         return HttpResponseRedirect(reverse("main:show_main"))
     context = {"form": form}
     return render(request, "edit_product.html", context)
+
+
+def get_product_json(request):
+    weapons = Weapons.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", weapons))
+
+
+@csrf_exempt
+def add_product_ajax(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        type = request.POST.get("type")
+        attack_rating = request.POST.get("attack_rating")
+        amount = request.POST.get("amount")
+        description = request.POST.get("description")
+        user = request.user
+
+        new_product = Weapons(
+            name=name,
+            type=type,
+            attack_rating=attack_rating,
+            amount=amount,
+            description=description,
+            user=user,
+        )
+        new_product.save()
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
+
+
+@csrf_exempt
+def delete_product_ajax(request, id):
+    product = Weapons.objects.get(pk=id)
+    product.delete()
+    return HttpResponse(b"DELETED", status=201)

@@ -1,121 +1,184 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="h-screen flex flex-col items-center">
-  <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+  <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="" class="flex items-center">
+      <a href="" class="flex items-center">
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">The Hunter's Workshop</span>
-    </a>
-    <div class="flex items-center">
-      <a href="{% url 'main:logout' %}">
-        <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Logout
-        </button>
       </a>
-    </div>
+      <div class="flex items-center">
+        <a href="{% url 'main:logout' %}">
+          <button type="button"
+            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Logout
+          </button>
+        </a>
+      </div>
   </nav>
 
-  <div class="relative overflow-x-auto shadow-md pt-12 pb-10">
-    <p class="text-gray-500 whitespace-nowrap dark:text-gray-400">Welcome, {{ name }}! from {{ class }}</p>
+  <div class="relative overflow-x-auto shadow-md pt-3">
+    <h1 class="pt-5 text-lg text-center text-gray-900 dark:text-white">Welcome Home Good Hunter,</h1>
+    <h1 class="text-3xl font-bold text-center text-gray-900 dark:text-white">{{ name }}!</h1>
+    <h1 class="pb-5 text-lg font-semibold text-center text-gray-900 dark:text-white">from {{ class }}</h1>
   </div>
 
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg" style="max-width: 82%; margin: 0 auto;">
-      <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400 border-separate border border-gray-900 mx-auto">
-        <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-          {% if counter == 0 %}
-          You haven't found any weapons!
-          {% elif counter == 1 %}
-          You have found a weapon!
-          {% else %}
-          You have found {{ counter }} weapons!
-          {% endif %}
-          <a href="{% url 'main:create_weapon' %}">
-            <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right">Add New Weapon</button>
-          </a>
-        </caption>
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                  <th scope="col" class="px-2 py-2">
-                      Name
-                  </th>
-                  <th scope="col" class="px-2 py-2">
-                      Type
-                  </th>
-                  <th scope="col" class="px-2 py-2">
-                      Attack Rating
-                  </th>
-                  <th scope="col" class="px-2 py-2">
-                      Amount
-                  </th>
-                  <th scope="col" class="px-2 py-2">
-                      Action
-                  </th>
-                  <th scope="col" class="px-2 py-2">
-                      Description
-                  </th>
-                  <th scope="col" class="px-2 py-2">
-                      Date Added
-                  </th>
-                  <th scope="col" class="px-2 py-2">
-                      Edit
-                  </th>
-              </tr>
-          </thead>
-          {% for weapon in weapons %}
-          <tbody>
-            {% if forloop.last %}
-            <tr class="bg-white border-b dark:bg-gray-700 dark:border-gray-500 transition-colors duration-200 hover:bg-green-900 dark:hover:bg-green-900">
-            {% else %}
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-            {% endif %}
-                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {{ weapon.name }}
-                  </th>
-                  <td class="px-6 py-4">
-                      {{ weapon.type }}
-                  </td>
-                  <td class="px-6 py-4">
-                      {{ weapon.attack_rating }}
-                  </td>
-                  <td class="px-6 py-4">
-                      {{ weapon.amount }}
-                  </td>
-                  <td class="px-6 py-4">
-                    <a href="{% url 'main:increment' weapon.id %}">
-                      <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Add</button>
-                    </a>
-                    {% if weapon.amount > 1 %}
-                    <a href="{% url 'main:decrement' weapon.id %}">
-                      <button type="button" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 dark:focus:ring-yellow-900">Drop</button>
-                    </a>
-                    {% endif %}
-                    <a href="{% url 'main:delete' weapon.id %}">
-                      <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Purge</button>
-                    <a>
-                  </td>
-                  <td class="px-6 py-4">
-                      {{ weapon.description }}
-                  </td>
-                  <td class="px-6 py-4">
-                      {{ weapon.date_added }}
-                  </td>
-                  <td class="px-6 py-4">
-                      <a href="{% url 'main:edit_product' weapon.id %}">
-                        <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Edit</button>
-                      </a>
-                  </td>
-              </tr>
-          </tbody>
-          {% endfor %}
-      </table>
+  <div class="px-4 pb-4 flex">
+    <div>
+      <label for="tw-modal"
+        class="cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right">
+        Add New Weapon
+      </label>
     </div>
-    <h5 class="text-gray-500 whitespace-nowrap dark:text-gray-400 pt-10">
+    <p class="p-2 text-lg font-semibold text-left text-gray-900 dark:text-white">
+      {% if counter == 0 %}
+      You haven't found any weapons!
+      {% elif counter == 1 %}
+      You have found a weapon!
+      {% else %}
+      You have found {{ counter }} weapons!
+      {% endif %}
+    </p>
+  </div>
+
+  <div id="product_table"></div>
+
+  <div class="pt-5 relative">
+    <h5 class="text-center text-gray-600">
       This website is not affiliated with Bloodborne or FromSoftware in any way.
     </h5>
-    <h5 class="text-gray-500 whitespace-nowrap dark:text-gray-400">
-      Last login session: {{ last_login }}
-    </h5>
-</div>
+    <h5 class="text-center text-gray-600">Last login session: {{ last_login }}</h5>
+  </div>
 
-<br />
-{% endblock content %}
+  <input type="checkbox" id="tw-modal" class="peer fixed appearance-none opacity-0" />
+
+  <label for="tw-modal"
+    class="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center pt-10 bg-gray-900 bg-opacity-50 transition-all duration-200 ease-in-out cursor-pointer invisible peer-checked:pointer-events-auto peer-checked:visible peer-checked:opacity-100">
+    <label
+      class="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-lg shadow p-6 sm:p-8 md:w-96 dark:bg-gray-800 dark:border-gray-700">
+      <h1
+        class="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl dark:text-white pb-4 pt-4 pl-4 pr-4">
+        Add New Product
+      </h1>
+      <form id="form" onsubmit="return false" class="px-4">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="name" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Name:</label>
+          <input type="text" placeholder="Name"
+            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            id="name" name="name">
+        </div>
+        <div class="mb-3">
+          <label for="type" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Type:</label>
+          <input type="text" placeholder="Type" cols="50"
+            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            id="type" name="type">
+        </div>
+        <div class="mb-3">
+          <label for="attack_rating" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Attack
+            Rating:</label>
+          <input type="number" placeholder="Attack Rating" cols="50"
+            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            id="attack_rating" name="attack_rating">
+        </div>
+        <div class="mb-3">
+          <label for="amount" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Amount:</label>
+          <input type="number" placeholder="Amount" cols="50"
+            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            id="amount" name="amount">
+        </div>
+        <div class="mb-3">
+          <label for="description"
+            class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Description:</label>
+          <textarea placeholder="Description" cols="50" rows="5"
+            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            id="description" name="description"></textarea>
+        </div>
+      </form>
+      <div class="pt-4">
+        <label for="tw-modal" type="button"
+          class="cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-redgreen-300 font-medium rounded-lg text-sm px-5 py-2.5 ml-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 float-right peer-checked:pointer-events-auto peer-checked:visible peer-checked:opacity-100"
+          id="button_add">Add Weapon
+        </label>
+        <label for="tw-modal" type="button"
+          class="cursor-pointer focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-redgreen-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 float-right peer-checked:pointer-events-auto peer-checked:visible peer-checked:opacity-100">Close
+        </label>
+      </div>
+    </label>
+  </label>
+
+
+  <script>
+    async function getProducts() {
+      return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+    }
+    async function refreshProducts() {
+      const items = await getProducts();
+      let htmlString = `
+      <div class="relative shadow-md sm:rounded-lg" style="max-width: 82%; margin: 0 auto;">
+        <table class="w-full text-sm text-center dark:text-gray-400 border-separate border border-gray-900 mx-auto">
+          <thead class="text-xs uppercase dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-2 py-2">Name</th>
+              <th scope="col" class="px-2 py-2">Type</th>
+              <th scope="col" class="px-2 py-2">Attack Rating</th>
+              <th scope="col" class="px-2 py-2">Amount</th>
+              <th scope="col" class="px-2 py-2">Description</th>
+              <th scope="col" class="px-2 py-2">Date Added</th>
+              <th scope="col" class="px-2 py-2">Delete</th>
+            </tr>
+          </thead>
+      `;
+      items.forEach((item, index) => {
+        const isLastItem = index === items.length - 1;
+        const rowClass = isLastItem
+          ? 'bg-gray-700 dark:bg-gray-00 transition-colors duration-200 hover:bg-green-900 dark:hover:bg-green-900'
+          : 'bg-white border-b dark:bg-gray-900 dark:border-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700';
+        htmlString += `
+        <tr class="${rowClass}">
+          <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${item.fields.name}</td>
+          <td class="px-6 py-4">${item.fields.type}</td>
+          <td class="px-6 py-4">${item.fields.attack_rating}</td>
+          <td class="px-6 py-4">${item.fields.amount}</td>
+          <td class="px-6 py-4">${item.fields.description}</td>
+          <td class="px-6 py-4">${item.fields.date_added}</td>
+          <td class="px-6 py-4">
+              <button class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onclick="deleteProduct(${item.pk})">
+                  Delete
+              </button>
+          </td>
+        </tr>
+      `;
+      });
+      htmlString += `
+          </tbody>
+        </table>
+      </div>
+    `;
+      document.getElementById("product_table").innerHTML = htmlString;
+    }
+    refreshProducts()
+    function addProduct() {
+      console.log("click")
+      const modal = document.getElementById("tw-modal")
+      fetch("{% url 'main:add_product_ajax' %}", {
+        method: "POST",
+        body: new FormData(document.querySelector('#form'))
+      }).then(refreshProducts)
+
+      document.getElementById("form").reset()
+      modal.close()
+      return false
+    }
+    function deleteProduct(id) {
+      fetch("delete-product-ajax/" + id, {
+        method: "POST"
+      }).then(refreshProducts)
+
+      document.getElementById("form").reset()
+      return false
+    }
+    document.getElementById("button_add").onclick = addProduct
+  </script>
+
+  {% endblock content %}

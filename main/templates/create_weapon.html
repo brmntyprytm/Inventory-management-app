@@ -1,74 +1,52 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
 <div class="w-screen flex flex-col items-center justify-center">
-    <div class="bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700" style="width: 50%;">
-        <h1 class="text-xl text-center font-medium text-gray-900 dark:text-white">Add New Weapon!</h1> 
-        <form class="space-y-6" method="POST" action="">  
-            {% csrf_token %}  
-            <div class="text-xl pb-2 font-medium text-gray-900 dark:text-white"> 
-                <div class="text-xl pb-2 font-medium text-gray-900 dark:text-white"> 
+    <div class="bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700"
+        style="width: 50%;">
+        <h1 class="text-xl text-center font-medium text-gray-900 dark:text-white">Add New Weapon!</h1>
+        <form class="space-y-6" method="POST" action="">
+            {% csrf_token %}
+            <div class="text-xl pb-2 font-medium text-gray-900 dark:text-white">
+                <div class="text-xl pb-2 font-medium text-gray-900 dark:text-white">
                     <div class="mb-4">
                         <label for="{{ form.name.id_for_label }}">Name:</label>
-                        <input
-                            type="text"
-                            name="{{ form.name.name }}"
-                            placeholder="name"
-                            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            value="{{ form.name.value|default:'' }}"
-                            required
-                        >
+                        <input type="text" name="{{ form.name.name }}" placeholder="name"
+                            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:bordser-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                            value="{{ form.name.value|default:'' }}" required>
                     </div>
                     <div class="mb-4">
                         <label for="{{ form.type.id_for_label }}">Type:</label>
-                        <input
-                            type="text"
-                            name="{{ form.type.name }}"
-                            placeholder="type"
+                        <input type="text" name="{{ form.type.name }}" placeholder="type"
                             class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            value="{{ form.type.value|default:'' }}"
-                            required
-                        >
+                            value="{{ form.type.value|default:'' }}" required>
                     </div>
                     <div class="mb-4">
                         <label for="{{ form.attack_rating.id_for_label }}">Attack Rating:</label>
-                        <input
-                            type="text"
-                            name="{{ form.attack_rating.name }}"
-                            placeholder="attack rating"
+                        <input type="text" name="{{ form.attack_rating.name }}" placeholder="attack rating"
                             class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            value="{{ form.attack_rating.value|default:'' }}"
-                            required
-                        >
+                            value="{{ form.attack_rating.value|default:'' }}" required>
                     </div>
                     <div class="mb-4">
                         <label for="{{ form.amount.id_for_label }}">Amount:</label>
-                        <input
-                            type="text"
-                            name="{{ form.amount.name }}"
-                            placeholder="amount"
+                        <input type="text" name="{{ form.amount.name }}" placeholder="amount"
                             class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            value="{{ form.amount.value|default:'' }}"
-                            required
-                        >
+                            value="{{ form.amount.value|default:'' }}" required>
                     </div>
                     <div class="mb-4">
                         <label for="{{ form.description.id_for_label }}">Description:</label>
-                        <textarea
-                            name="{{ form.description.name }}"
-                            placeholder="description"
+                        <textarea name="{{ form.description.name }}" placeholder="description"
                             class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-40 resize-none dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            required
-                        >{{ form.description.value|default:''|linebreaksbr|striptags }}</textarea>
+                            required>{{ form.description.value|default:''|linebreaksbr|striptags }}</textarea>
                     </div>
-                    <div class="text-center">  
-                        <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                            <input type="submit" value="Add"/>
-                        </button>  
-                    </div>  
-                </div>  
-            </form>
-        </div>
+                    <div class="text-center">
+                        <button type="button"
+                            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Add
+                        </button>
+                    </div>
+                </div>
+        </form>
     </div>
 </div>
 
