@@ -16,6 +16,7 @@ from main.views import (
     get_product_json,
     add_product_ajax,
     delete_product_ajax,
+    create_product_flutter,
 )
 
 app_name = "main"
@@ -39,4 +40,5 @@ urlpatterns = [
     path(
         "delete-product-ajax/<int:id>", delete_product_ajax, name="delete_product_ajax"
     ),
+    path("create-flutter/", create_product_flutter, name="create_product_flutter"),
 ]

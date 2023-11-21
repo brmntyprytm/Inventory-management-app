@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from main.forms import WeaponForm
 from main.models import Weapons
@@ -14,6 +14,7 @@ import datetime
 from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 @login_required(login_url="/login")
@@ -177,3 +178,22 @@ def delete_product_ajax(request, id):
     product = Weapons.objects.get(pk=id)
     product.delete()
     return HttpResponse(b"DELETED", status=201)
+
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        new_product = Weapons.objects.create(
+            user=request.user,
+            name=data["name"],
+            price=int(data["price"]),
+            description=data["description"],
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
