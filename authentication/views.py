@@ -23,6 +23,7 @@ def logout(request):
         return JsonResponse({"status": False, "message": "Logout failed."}, status=401)
 
 
+@csrf_exempt
 def login(request):
     username = request.POST["username"]
     password = request.POST["password"]
